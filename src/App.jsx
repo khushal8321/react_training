@@ -1,39 +1,21 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
-import React from 'react'
 import './App.css'
 
-
 function App() {
-  const [count, setCount] = useState(0)
-  const [countextra, setExtraCount] = useState(0)
-
-  const newfun = ()=>setCount((count)=>count + 1)
-  
-  console.log("---------------------------")
-  const newfun1 = ()=>setExtraCount((countextra)=>countextra + 5)
-  useEffect(()=>{
-    console.log("use effect 1")
-     
-  },[count,countextra])
-  useEffect(()=>{
-    console.log("use effect 2")
-  },[countextra])
- 
-
-  useEffect(()=>{
-    console.log("use effect 3")
+  const [string, setString] = useState("hello")
+  let onchange = (event)=>{
+    let newstring = event.target.value;
     
-  },[count])
+    setString(newstring)
+  
+  }
 
   return (
-    <>
-    <h1>count is {count} and {countextra}</h1>
-    <button onClick={newfun}>click up </button>
-    <button onClick={newfun1}>click down </button>
-      
-    </>
+   <>
+   <input type="text" onChange={onchange}></input><p>{string}</p> length is {string.length}
+   </>
   )
 }
 
