@@ -1,139 +1,44 @@
-import React, { useEffect, useState } from 'react'
-import axios from 'axios'
+import { useState } from 'react';
 import './App.css'
 
 function App() {
-  const [myData, myUserData] = useState([])
-  const [editData, myEditData] = useState(null)
 
-  useEffect(() => {
-    fetchData();
-  }, [])
+  const [formElement, setFormElement] = useState({
+    fname: '',
+    lname: '',
+    email: '',
+  });
 
-  const fetchData = () => {
-    axios.get("https://reqres.in/api/users?page=2")
-      .then((res) => {
-        myUserData(res.data.data)
-      })
-      .catch((error) => {
-        console.log("error");
-      });
+  const userInput = (event) => {
+    const {name, value} = event.target;
+
+    setFormElement((preValue) => {
+      return {
+        ...preValue,
+        [name]: value,
+      }
+    })
   };
 
-  const deleteUser = (id) => {
-    console.log(`Delete user with id ${id}`);
-    axios.delete(`https://reqres.in/api/users/${id}`)
-      .then(() => {
-        myUserData((oldData) => oldData.filter((user) => user.id !== id));
-      })
-      .catch((error) => {
-        console.log("error");
-      });
-  };
-
-  const editUser = (id) => {
-    console.log(`Edit user with id ${id}`);
-    axios.get(`https://reqres.in/api/users/${id}`)
-      .then((res) => {
-        myEditData(res.data.data);
-      })
-      .catch((error) => {
-        console.log("error");
-      });
-  };
-
-  const saveUser = () => {
-    if (editData) {
-      console.log(`Saving user with id ${editData.id}`);
-      axios.put(`https://reqres.in/api/users/${editData.id}`, editData)
-        .then(() => {
-          myEditData(null);
-          fetchData();
-        })
-        .catch((error) => {
-          console.log("error");
-        });
-    }
-  };
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    myEditData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
-  };
-
-  const createUser = () => {
-    const newUser = {
-      id:111,
-      email: "abc@email.com",
-      first_name: "abhi",
-      last_name: "patel",
-      avatar: "https://randomuser.me/api/portraits/men/1.jpg",
-    };
-    myUserData((oldData) => [newUser, ...oldData]);
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    alert("form submitted");
   };
 
   return (
     <>
-      <h1>hello</h1>
-      <button onClick={createUser}>Create User</button>
-      <table>
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Email</th>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Avatar</th>
-            <th>Edit</th>
-            <th>Delete</th>
-          </tr>
-        </thead>
-        <tbody>
-          {myData.map((udata) => {
-            const { id, email, first_name, last_name, avatar } = udata;
-            return (
-              <tr key={id}>
-                <td>{id}</td>
-                <td>{email}</td>
-                <td>{first_name}</td>
-                <td>{last_name}</td>
-                <td>
-                  <img src={avatar} alt="avatar" />
-                </td>
-                <td>
-                  <button onClick={() => editUser(id)}>Edit</button>
-                </td>
-                <td>
-                  <button onClick={() => deleteUser(id)}>Delete</button>
-                </td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
-      {editData && (
-        <div>
-          <h2>Edit User</h2>
-          <input
-            type="text"
-            name="first_name"
-            value={editData.first_name}
-            onChange={handleChange}
-          />
-          <input
-            type="text"
-            name="last_name"
-            value={editData.last_name}
-            onChange={handleChange}
-          />
-          <button onClick={saveUser}>Save</button>
-        </div>
-      )}
+      <div className="main-container">
+        <h1 className='heading'>Hello {formElement.fname} {formElement.lname} </h1>
+        <h3>{formElement.email}</h3>
+        <form className='form' onSubmit={handleSubmit} >
+          <input type='text' name='fname' placeholder='First Name' onChange={userInput} value={formElement.fname} />
+          <input type='text' name='lname' placeholder='Last Name' onChange={userInput} value={formElement.lname} />
+          <input type='email' name='email' placeholder='Email' onChange={userInput} value={formElement.email} />
+          <button type='submit'>Submit</button>
+        </form>
+      </div>
     </>
-  );
+  )
 }
 
-export default App;
+export default App
