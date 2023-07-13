@@ -35,6 +35,7 @@ function App() {
     console.log(`Edit user with id ${id}`);
     axios.get(`https://reqres.in/api/users/${id}`)
       .then((res) => {
+        myUserData((oldData)=> oldData.filter((user)=> user.id === id))
         myEditData(res.data.data);
       })
       .catch((error) => {
@@ -45,10 +46,11 @@ function App() {
   const saveUser = () => {
     if (editData) {
       console.log(`Saving user with id ${editData.id}`);
-      axios.put(`https://reqres.in/api/users/${editData.id}`, editData)
+      axios.patch(`https://reqres.in/api/users/${editData.id}`, editData)
         .then(() => {
           myEditData(null);
           fetchData();
+          console.log("update is work")
         })
         .catch((error) => {
           console.log("error");
@@ -66,7 +68,7 @@ function App() {
 
   const createUser = () => {
     const newUser = {
-      id:111,
+      id:Math.floor((Math.random()*100)),
       email: "abc@email.com",
       first_name: "abhi",
       last_name: "patel",
