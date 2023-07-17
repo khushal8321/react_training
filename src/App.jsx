@@ -1,59 +1,75 @@
-import React, { useEffect, useState } from 'react'
-import axios from 'axios'
-import './App.css'
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import './App.css';
 
 function App() {
-  const [myData, myUserData] = useState([])
-  const [editData, myEditData] = useState(null)
+  const [myData, myUserData] = useState([]);
+  const [editData, myEditData] = useState(null);
+  const [formData, setFormData] = useState({
+    id: '',
+    email: '',
+    first_name: '',
+    last_name: '',
+    avatar: '',
+  });
 
   useEffect(() => {
     fetchData();
-  }, [])
+  }, []);
 
   const fetchData = () => {
-    axios.get("https://reqres.in/api/users?page=2")
+    axios
+      .get('https://reqres.in/api/users?page=2')
       .then((res) => {
-        myUserData(res.data.data)
+        myUserData(res.data.data);
       })
       .catch((error) => {
-        console.log("error");
+        console.log('error');
       });
   };
 
   const deleteUser = (id) => {
     console.log(`Delete user with id ${id}`);
-    axios.delete(`https://reqres.in/api/users/${id}`)
+    axios
+      .delete(`https://reqres.in/api/users/${id}`)
       .then(() => {
         myUserData((oldData) => oldData.filter((user) => user.id !== id));
       })
       .catch((error) => {
-        console.log("error");
+        console.log('error');
       });
   };
 
   const editUser = (id) => {
     console.log(`Edit user with id ${id}`);
-    axios.get(`https://reqres.in/api/users/${id}`)
+    axios
+      .get(`https://reqres.in/api/users/${id}`)
       .then((res) => {
-        myUserData((oldData)=> oldData.filter((user)=> user.id === id))
         myEditData(res.data.data);
       })
       .catch((error) => {
-        console.log("error");
+        console.log('error');
       });
   };
 
   const saveUser = () => {
     if (editData) {
       console.log(`Saving user with id ${editData.id}`);
-      axios.patch(`https://reqres.in/api/users/${editData.id}`, editData)
-        .then(() => {
+      axios
+        .patch(`https://reqres.in/api/users/${editData.id}`, editData)
+        .then((response) => {
           myEditData(null);
-          fetchData();
-          console.log("update is work")
+          myUserData(myData.map((data) => (
+            editData.id === data.id ? 
+            response.data
+            :
+            data
+          )))
+          // fetchData();
+          console.log('update is work');
         })
         .catch((error) => {
-          console.log("error");
+          console.log('error');
         });
     }
   };
@@ -66,21 +82,81 @@ function App() {
     }));
   };
 
+  const handleFormChange = (e) => {
+    const { name, value } = e.target.value;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
   const createUser = () => {
     const newUser = {
-      id:Math.floor((Math.random()*100)),
-      email: "abc@email.com",
-      first_name: "abhi",
-      last_name: "patel",
-      avatar: "https://randomuser.me/api/portraits/men/1.jpg",
+      id: formData.id,
+      email: formData.email,
+      first_name: formData.first_name,
+      last_name: formData.last_name,
+      avatar: formData.avatar,
     };
-    myUserData((oldData) => [newUser, ...oldData]);
+    axios
+      .post('https://reqres.in/api/users', newUser)
+      .then(() => {
+        myUserData((oldData) => [newUser, ...oldData]);
+        setFormData({
+          id: '',
+          email: '',
+          first_name: '',
+          last_name: '',
+          avatar: '',
+        });
+      })
+      .catch((error) => {
+        console.log('error');
+      });
   };
 
   return (
     <>
       <h1>hello</h1>
-      <button onClick={createUser}>Create User</button>
+      <div>
+        <h2>Create User</h2>
+        <input
+          type="text"
+          name="id"
+          placeholder="ID"
+          value={formData.id}
+          onChange={handleFormChange}
+        />
+        <input
+          type="text"
+          name="email"
+          placeholder="Email"
+          value={formData.email}
+          onChange={handleFormChange}
+        />
+        <input
+          type="text"
+          name="first_name"
+          placeholder="First Name"
+          value={formData.first_name}
+          onChange={handleFormChange}
+        />
+        <input
+          type="text"
+          name="last_name"
+          placeholder="Last Name"
+          value={formData.last_name}
+          onChange={handleFormChange}
+        />
+        <input
+          type="text"
+          name="avatar"
+          placeholder="Avatar URL"
+          value={formData.avatar}
+          onChange={handleFormChange}
+        />
+        <button onClick={createUser}>Create User</button>
+      </div>
       <table>
         <thead>
           <tr>
@@ -118,21 +194,21 @@ function App() {
       </table>
       {editData && (
         <div>
-          <h2>Edit User</h2>
-          <input
-            type="text"
-            name="first_name"
-            value={editData.first_name}
-            onChange={handleChange}
-          />
-          <input
-            type="text"
-            name="last_name"
-            value={editData.last_name}
-            onChange={handleChange}
-          />
-          <button onClick={saveUser}>Save</button>
-        </div>
+        <h2>Edit User</h2>
+        <input
+          type="text"
+          name="first_name" // Make sure the name attribute matches the keys of the editData object
+          value={editData.first_name}
+          onChange={handleChange}
+        />
+        <input
+          type="text"
+          name="last_name" // Make sure the name attribute matches the keys of the editData object
+          value={editData.last_name}
+          onChange={handleChange}
+        />
+        <button onClick={saveUser}>Save</button>
+      </div>
       )}
     </>
   );
