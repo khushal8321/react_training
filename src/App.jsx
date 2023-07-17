@@ -65,7 +65,7 @@ function App() {
             :
             data
           )))
-          // fetchData();
+         
           console.log('update is work');
         })
         .catch((error) => {
@@ -197,13 +197,12 @@ function App() {
         <h2>Edit User</h2>
         <input
           type="text"
-          name="first_name" // Make sure the name attribute matches the keys of the editData object
-          value={editData.first_name}
+          name="first_name"
           onChange={handleChange}
         />
         <input
           type="text"
-          name="last_name" // Make sure the name attribute matches the keys of the editData object
+          name="last_name"
           value={editData.last_name}
           onChange={handleChange}
         />
