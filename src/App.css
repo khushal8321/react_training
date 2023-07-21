@@ -1,7 +1,7 @@
 #root {
-  max-width: 1280px;
+  /* max-width: 1280px; */
   margin: 0 auto;
-  padding: 2rem;
+  /* padding: 2rem; */
   text-align: center;
 }
 
@@ -39,4 +39,120 @@
 
 .read-the-docs {
   color: #888;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color:rgb(73,1,73);
+  background-size: cover;
+  background-position: center;
+  min-height: 100vh; 
+}
+.heading1{
+  color:orange;
+  text-transform: capitalize;
+  margin-top:200px;
+}
+.homebutton{
+  font-size: 20px;
+  text-transform: capitalize;
+  background-color: orange;
+  border-radius: 20px;
+  border:2px solid orange
+}
+.homebutton:hover{
+  background-color: #fff;
+  color:orange;
+  border:2px solid orange;
+}
+
+
+.row {
+  max-width: 1140px;
+  margin: 0 auto;
+}
+.navi {
+  list-style: none;
+  float: right;
+  font-size: 20px;
+  text-transform: uppercase;
+  margin-top: 35px;
+}
+.navi li {
+  list-style: none;
+  display: inline-block;
+  color: #fff;
+  text-transform: uppercase;
+}
+.navi li a {
+  list-style: none;
+  text-decoration: none;
+  color: #fff;
+  margin-right: 15px;
+}
+.navi li a:hover {
+  color: rgb(232, 65, 93);
+}
+.main {
+  position: absolute;
+  width: 1140px;
+  top: 50%;
+  left: 25%;
+  transform: translate(-50%, -25%);
+}
+h1 {
+  text-transform: uppercase;
+  color: #fff;
+}
+.main2 {
+  top: 50%;
+  left: 50%;
+  margin-left: 50%;
+}
+.line {
+  color: #fff;
+  font-size: 15px;
+  font-family: "Courier New", Courier, monospace;
+}
+.part2 {
+  width: 90%;
+  margin-left: 5%;
+  font-size: 20px;
+  font-family: "monospace";
+  margin-bottom: 50px;
+}
+.box {
+  width: 100%;
+  list-style: none;
+  float: left;
+}
+.box img {
+  width: 100%;
+}
+.form-head{
+  margin-top: 20px;
+  text-align: center;
+}
+.photo{
+  margin-top: 60px;
+  margin-left: 20%;
+  margin-right: 20%;
+  width:60%;
+}
+.textofpara{
+  color:#fff;
+  font-size: 20px;
+  font-family: sans-serif;
+}
+.cap1{
+  margin-top: 50px;
+  text-align: center;
+  padding: 70px;
+  text-align: center;
+  padding-left:20px;
+}
+.servicebox{
+ padding-top: 100px;
+  margin-left: 20%;
 }
