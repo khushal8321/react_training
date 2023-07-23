@@ -1,33 +1,25 @@
-import { useState , useMemo} from 'react'
+import { useState , useEffect, useRef} from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 
 function App() {
-  const [myNum, setmyNUm] = useState(0)
-  const [show, setshow]= useState(true)
+  // const [count, setCount] = useState()
+  const [myData, setmyData] = useState("")
 
-  function numinc(){
-       console.log("first")
-      setmyNUm(myNum +1);
-  }
-  const countNumber =(num)=>{
-    for(let i=0; i<100000000;i++){}
-     return num
-  }
-  const checknumber= useMemo(()=>{
-    return countNumber(myNum)
-  },[myNum])
 
-  // const checknumber = countNumber(myNum)
+  const count = useRef(0)
+  console.log(count)
+  console.log(myData)
+  useEffect(()=>{
+    count.current = count.current +1
+  })
 
   return (
     <>
-    <button onClick={numinc}>increase</button>
-    <p>{checknumber}</p>
-    <button onClick={() => setshow(!show)}
-  >{show?"clicked me":"please cleked button"}</button>
-     
+      
+      <input type="text" value={myData} onChange={(e)=>{setmyData(e.target.value)}}></input>
+      <p>{count.current}</p>
     </>
   )
 }
