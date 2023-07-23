@@ -1,55 +1,34 @@
-
-import React,{ Component } from 'react'
-import {Route, Routes, Link} from 'react-router-dom'
+import { useState , useMemo} from 'react'
+import reactLogo from './assets/react.svg'
+import viteLogo from '/vite.svg'
 import './App.css'
-import About from './component/About'
-import Contact from './component/Contact'
-import Home from './component/Home'
-import Service from './component/Service'
-
-
-
-
 
 function App() {
- 
+  const [myNum, setmyNUm] = useState(0)
+  const [show, setshow]= useState(true)
+
+  function numinc(){
+       console.log("first")
+      setmyNUm(myNum +1);
+  }
+  const countNumber =(num)=>{
+    for(let i=0; i<100000000;i++){}
+     return num
+  }
+  const checknumber= useMemo(()=>{
+    return countNumber(myNum)
+  },[myNum])
+
+  // const checknumber = countNumber(myNum)
 
   return (
     <>
-    <body>
-      <nav>
-        <ul className='navi'>
-          <li><Link to="/">about</Link></li>
-          <li><Link to="/contact">contact</Link></li>
-          <li><Link to="/home">home</Link></li>
-          <li><Link to="/service">service</Link></li>   
-        </ul>
-      </nav>
-      
-
+    <button onClick={numinc}>increase</button>
+    <p>{checknumber}</p>
+    <button onClick={() => setshow(!show)}
+  >{show?"clicked me":"please cleked button"}</button>
      
-      <Routes>
-        <Route path="/" Component={About} exact/>
-        <Route path="/contact" Component={Contact}/>
-        <Route path='/home' Component={Home}/>
-        <Route path='/service' Component={Service}/>
-      </Routes>
-     
-{/* <div className='main'>
-  <h1>welcome to fruits website</h1>
-  <p className="line">Lorem ipsum dolor sit amet consectetur adipisicing <br/>elit. Odio omnis fugit, sed tempora praesentium<br/> commodi error, hic recusandaerepudiandae neque<br/> ad molestias, atque veritatis labore quae eveniet autem in<span id="dots">...</span><span id="more"></span></p>
-  
-</div>
-
-<div className="main2">
-    <img src="slider-img.png" width="500px" height="500px" />
-</div>      */}
-</body> 
-
-
-   </>
-      
-  
+    </>
   )
 }
 
